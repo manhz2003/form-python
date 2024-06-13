@@ -1,7 +1,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from FormLogin import Ui_LoginWindow
 from FormRegisterMember import Ui_FormRegisterMember
-from FormLoginMember import Ui_LoginWindow as Ui_FormLoginMember  # Assuming this is another login window
+from FormLoginMember import Ui_LoginWindow as Ui_FormLoginMember
+from FormMember import Ui_Form as FormMember
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -69,6 +70,9 @@ class Ui_MainWindow(object):
         # Connect member login button
         self.pushButton_member_login.clicked.connect(self.openMemberLoginForm)
 
+        # Connect manage member button
+        self.pushButton_4.clicked.connect(self.openManageMembersForm)
+
     def openAdminLoginForm(self):
         self.loginWindow = QtWidgets.QMainWindow()
         self.ui = Ui_LoginWindow()
@@ -113,7 +117,7 @@ class Ui_MainWindow(object):
             self.IS_ADMIN = False
             self.pushButton_4.hide()
             QtWidgets.QMessageBox.information(None, "Thông báo", "Đăng xuất admin thành công.")
-        elif self.IS_MEMBER_LOGGED_IN:  # Check member login status
+        elif self.IS_MEMBER_LOGGED_IN:
             self.IS_MEMBER_LOGGED_IN = False
             QtWidgets.QMessageBox.information(None, "Thông báo", "Đăng xuất thành viên thành công.")
         else:
@@ -124,6 +128,12 @@ class Ui_MainWindow(object):
         self.ui_member_login = Ui_FormLoginMember()
         self.ui_member_login.setupUi(self.memberLoginWindow, self.handleLogin)  # Pass the login callback
         self.memberLoginWindow.show()
+
+    def openManageMembersForm(self):
+        self.manageMembersForm = QtWidgets.QWidget()
+        self.ui_manage_members = FormMember()
+        self.ui_manage_members.setupUi(self.manageMembersForm)
+        self.manageMembersForm.show()
 
 if __name__ == "__main__":
     import sys
